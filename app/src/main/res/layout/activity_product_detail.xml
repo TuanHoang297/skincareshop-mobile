@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.product.ProductDetailActivity">
+
+    <!-- Ảnh sản phẩm -->
+    <ImageView
+        android:id="@+id/imgDetailProduct"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="Ảnh sản phẩm" />
+
+    <!-- Nút quay lại -->
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_margin="16dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/ic_arrow_back"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Quay lại"
+        app:tint="#FFFFFF" />
+
+    <!-- Nút giỏ hàng -->
+    <ImageView
+        android:id="@+id/btnCart"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_margin="16dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/ic_cart"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Giỏ hàng"
+        app:tint="#FFFFFF" />
+
+    <!-- Phần nội dung -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/imgDetailProduct"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Tên sản phẩm -->
+            <TextView
+                android:id="@+id/tvDetailProductName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tên sản phẩm"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="#222222" />
+
+            <!-- Giá -->
+            <TextView
+                android:id="@+id/tvDetailProductPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="₫0"
+                android:textSize="18sp"
+                android:textColor="@android:color/holo_red_dark"
+                android:layout_marginTop="4dp" />
+
+            <!-- Mô tả -->
+            <TextView
+                android:id="@+id/tvDetailProductDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mô tả sản phẩm"
+                android:layout_marginTop="12dp"
+                android:lineSpacingExtra="6dp"
+                android:textColor="#444444" />
+
+            <!-- Dòng phân cách -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="16dp"
+                android:background="#CCCCCC" />
+
+            <!-- Các thông tin bổ sung -->
+            <TextView android:id="@+id/tvProductGender"
+                style="@style/InfoText" />
+            <TextView android:id="@+id/tvProductVolume"
+                style="@style/InfoText" />
+            <TextView android:id="@+id/tvProductRating"
+                style="@style/InfoText" />
+            <TextView android:id="@+id/tvProductSkinTypes"
+                style="@style/InfoText" />
+            <TextView android:id="@+id/tvProductMfgDate"
+                style="@style/InfoText" />
+            <TextView android:id="@+id/tvProductExpDate"
+                style="@style/InfoText" />
+
+            <!-- Nút thêm vào giỏ -->
+            <Button
+                android:id="@+id/btnAddToCart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🛒 Thêm vào giỏ hàng"
+                android:layout_marginTop="24dp"
+                android:backgroundTint="@color/primary"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" />
+
+            <!-- Nút đến giỏ hàng -->
+            <Button
+                android:id="@+id/btnGoToCart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🛍️ Đến giỏ hàng"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="#2196F3"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

@@ -1,0 +1,98 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutRoutine"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.routine.RoutineFragment"
+    android:background="#FAF7FF">
+
+    <!-- Nội dung scroll -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Header -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="16dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_routine"
+                    android:layout_marginEnd="8dp"
+                    app:tint="@color/primary" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Routine của bạn"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <!-- Loại da -->
+            <TextView
+                android:id="@+id/tvSkinType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Loại da: ..."
+                android:textStyle="italic|bold"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Routine sáng -->
+            <TextView
+                android:id="@+id/tvRoutineMorning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sáng:"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp"
+                android:textColor="@android:color/darker_gray" />
+
+            <!-- Routine tối -->
+            <TextView
+                android:id="@+id/tvRoutineNight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tối:"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:textColor="@android:color/darker_gray" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Progress loading -->
+    <ProgressBar
+        android:id="@+id/progressRoutine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+    <!-- Nút chat AI -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabSkincareChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_chat"
+        android:contentDescription="Chat tư vấn" />
+</FrameLayout>
