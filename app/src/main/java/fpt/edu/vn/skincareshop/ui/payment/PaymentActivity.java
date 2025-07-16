@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -39,7 +40,7 @@ public class PaymentActivity extends AppCompatActivity {
 
     private List<CartItem> cartItems;
     private double totalAmount;
-
+    private ImageButton btnBack;
     private ProgressDialog dialog;
 
     @SuppressLint("MissingInflatedId")
@@ -55,7 +56,9 @@ public class PaymentActivity extends AppCompatActivity {
         rbCOD = findViewById(R.id.rbCOD);
         rbVnpay = findViewById(R.id.rbVnpay);
         btnSubmit = findViewById(R.id.btnSubmitPayment);
+        btnBack = findViewById(R.id.btnBack);
 
+        btnBack.setOnClickListener(v -> finish());
         dialog = new ProgressDialog(this);
         dialog.setMessage("Đang xử lý...");
         dialog.setCancelable(false);
@@ -94,35 +97,27 @@ public class PaymentActivity extends AppCompatActivity {
         List<OrderItem> orderItems = new ArrayList<>();
         for (CartItem cartItem : cartItems) {
             if (cartItem.getProduct() != null) {
-                Log.d("ORDER_DEBUG", "Item - ProductId: " + cartItem.getProduct().getId()
-                        + ", Quantity: " + cartItem.getQuantity()
-                        + ", Price: " + cartItem.getProduct().getPrice());
-
                 orderItems.add(new OrderItem(
-                        cartItem.getProduct(), // ✅ truyền nguyên Product
+                        cartItem.getProduct(),
                         cartItem.getQuantity(),
                         cartItem.getProduct().getPrice()
                 ));
-
             }
         }
 
         String userId = SharedPrefManager.getInstance(this).getUserId();
         String phone = edtPhone.getText().toString().trim();
         String address = edtAddress.getText().toString().trim();
+        String name = edtName.getText().toString().trim();
 
         OrderRequest orderRequest = new OrderRequest();
         orderRequest.setUserId(userId);
+        orderRequest.setFullName(name);
         orderRequest.setPhoneNumber(phone);
         orderRequest.setAddress(address);
         orderRequest.setItems(orderItems);
         orderRequest.setTotalAmount(totalAmount);
 
-        Log.d("ORDER_DEBUG", "Creating order with userId: " + userId);
-        Log.d("ORDER_DEBUG", "Phone: " + phone + ", Address: " + address + ", Total: " + totalAmount);
-        Log.d("ORDER_DEBUG", "Total items: " + orderItems.size());
-
-        // In ra JSON payload gửi đi
         Log.d("ORDER_JSON", new Gson().toJson(orderRequest));
 
         OrderService.createOrder(this, orderRequest, new OrderService.OrderActionCallback() {
@@ -146,10 +141,20 @@ public class PaymentActivity extends AppCompatActivity {
     private void handleVnpay() {
         dialog.show();
 
+        String userId = SharedPrefManager.getInstance(this).getUserId();
+        String email = SharedPrefManager.getInstance(this).getUserEmail();
+        String phone = edtPhone.getText().toString().trim();
+        String address = edtAddress.getText().toString().trim();
+        String name = edtName.getText().toString().trim();
+
         PaymentRequest request = new PaymentRequest();
-        request.setUserId(SharedPrefManager.getInstance(this).getUserId());
+        request.setUserId(userId);
         request.setAmount(totalAmount);
         request.setPaymentMethod("VNPAY");
+        request.setPhoneNumber(phone);
+        request.setAddress(address);
+        request.setEmail(email);
+        request.setFullName(name);
 
         List<SimplifiedCartItem> simpleItems = new ArrayList<>();
         for (CartItem cartItem : cartItems) {
@@ -162,6 +167,8 @@ public class PaymentActivity extends AppCompatActivity {
             }
         }
         request.setItems(simpleItems);
+
+        Log.d("VNPAY_REQUEST", new Gson().toJson(request));
 
         PaymentService.createVnpayPayment(this, request, new PaymentService.PaymentCallback() {
             @Override

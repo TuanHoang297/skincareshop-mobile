@@ -1,5 +1,7 @@
 package fpt.edu.vn.skincareshop.network;
 
+import com.google.gson.JsonObject;
+
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +11,7 @@ import fpt.edu.vn.skincareshop.models.MyOrderResponse;
 import fpt.edu.vn.skincareshop.models.Order;
 import fpt.edu.vn.skincareshop.models.OrderRequest;
 import fpt.edu.vn.skincareshop.models.OrderResponse;
+import fpt.edu.vn.skincareshop.models.OrderStatusResponse;
 import fpt.edu.vn.skincareshop.models.PaymentRequest;
 import fpt.edu.vn.skincareshop.models.PaymentResponse;
 import fpt.edu.vn.skincareshop.models.Product;
@@ -17,6 +20,7 @@ import fpt.edu.vn.skincareshop.models.Review;
 import fpt.edu.vn.skincareshop.models.Routine;
 import fpt.edu.vn.skincareshop.models.RoutineResponse;
 import fpt.edu.vn.skincareshop.models.User;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -33,8 +37,9 @@ public interface ApiService {
     @POST("auth/login")
     Call<User.LoginResponse> login(@Body User.LoginRequest request);
 
-    @POST("auth/register")
-    Call<Void> register(@Body User user);
+    @POST("auth/signup")
+    Call<ResponseBody> register(@Body User user);
+
 
     // ====================== PRODUCT ======================
     @GET("products")
@@ -63,8 +68,8 @@ public interface ApiService {
     );
 
 
-
-
+    @GET("orders/status")
+    Call<OrderStatusResponse> getOrderStatus(@Query("orderId") String orderId);
 
     @GET("orders/my-orders")
     Call<MyOrderResponse> getMyOrders();
@@ -76,7 +81,8 @@ public interface ApiService {
 
 
     @PATCH("orders/{id}/cancel")
-    Call<Void> cancelOrder(@Path("id") String orderId);
+    Call<Order> cancelOrder(@Path("id") String orderId);
+
 
     // ====================== PAYMENT ======================
     @POST("payments/create")

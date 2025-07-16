@@ -16,6 +16,7 @@ import java.util.List;
 
 import fpt.edu.vn.skincareshop.R;
 import fpt.edu.vn.skincareshop.models.Product;
+import fpt.edu.vn.skincareshop.utils.FavoriteManager;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
@@ -53,13 +54,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     class ProductViewHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvPrice;
-        ImageView imgProduct;
+        ImageView imgProduct, imgFavorite;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvProductName);
             tvPrice = itemView.findViewById(R.id.tvProductPrice);
             imgProduct = itemView.findViewById(R.id.imgProduct);
+            imgFavorite = itemView.findViewById(R.id.imgFavorite);
         }
 
         public void bind(final Product product) {
@@ -67,12 +69,21 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             tvPrice.setText("₫" + product.getPrice());
 
             Glide.with(context)
-                    .load(product.getImageUrl())  // fix ở đây
+                    .load(product.getImageUrl())
                     .placeholder(R.drawable.ic_placeholder)
                     .into(imgProduct);
 
+            // Favorite logic
+            boolean isFavorite = FavoriteManager.isFavorite(context, product.getId());
+            imgFavorite.setImageResource(isFavorite ? R.drawable.ic_heart_filled : R.drawable.ic_heart_outline);
+
+            imgFavorite.setOnClickListener(v -> {
+                boolean newState = !FavoriteManager.isFavorite(context, product.getId());
+                FavoriteManager.setFavorite(context, product.getId(), newState);
+                imgFavorite.setImageResource(newState ? R.drawable.ic_heart_filled : R.drawable.ic_heart_outline);
+            });
+
             itemView.setOnClickListener(v -> listener.onItemClick(product));
         }
-
     }
 }

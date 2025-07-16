@@ -7,6 +7,14 @@
     android:padding="24dp"
     android:gravity="center"
     tools:context=".ui.auth.RegisterActivity">
+    <ImageView
+        android:id="@+id/imgLogoHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20dp"
+        />
 
     <TextView
         android:id="@+id/tvRegisterTitle"
@@ -15,7 +23,7 @@
         android:text="Đăng ký tài khoản"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:layout_marginBottom="32dp" />
+        android:layout_marginBottom="12dp" />
 
     <EditText
         android:id="@+id/edtName"
@@ -40,10 +48,23 @@
         android:hint="Mật khẩu"
         android:inputType="textPassword"
         android:layout_marginBottom="24dp" />
+    <TextView
+        android:id="@+id/tvGoToLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đã có tài khoản? Đăng nhập"
+        android:textColor="#ccc"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="16dp"
+        android:layout_marginBottom="24dp"/>
+
 
     <Button
         android:id="@+id/btnRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Đăng ký" />
+        android:text="Đăng ký"
+        android:backgroundTint="@color/primary"/>
 </LinearLayout>

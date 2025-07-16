@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import fpt.edu.vn.skincareshop.models.Order;
+import fpt.edu.vn.skincareshop.models.OrderStatusResponse;
 import fpt.edu.vn.skincareshop.models.PaymentRequest;
 import fpt.edu.vn.skincareshop.models.PaymentResponse;
 import fpt.edu.vn.skincareshop.models.VnpayReturnResult;
@@ -51,25 +52,27 @@ public class PaymentService {
     // ✅ API check trạng thái đơn hàng sau thanh toán
     public static void checkOrderStatus(Context context, String orderId, OrderStatusCallback callback) {
         ApiService apiService = ApiClient.getInstance(context).create(ApiService.class);
-        String token = SharedPrefManager.getInstance(context).getToken();
-
-        apiService.getOrderDetail(orderId, "Bearer " + token).enqueue(new Callback<Order>() {
+        apiService.getOrderStatus(orderId).enqueue(new Callback<OrderStatusResponse>() {
             @Override
-            public void onResponse(Call<Order> call, Response<Order> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    callback.onResult(response.body().getStatus());
+            public void onResponse(Call<OrderStatusResponse> call, Response<OrderStatusResponse> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
+                    String status = response.body().getData().getData().getStatus();
+
+                    callback.onResult(status);
                 } else {
                     callback.onError("Không thể lấy trạng thái đơn hàng");
                 }
             }
 
             @Override
-            public void onFailure(Call<Order> call, Throwable t) {
-                Log.e("PaymentService", "checkOrderStatus failed", t);
+            public void onFailure(Call<OrderStatusResponse> call, Throwable t) {
                 callback.onError("Lỗi kết nối: " + t.getMessage());
             }
         });
     }
+
+
+
 
     // ❌ Không còn dùng nữa nếu dùng cách 2, có thể xóa nếu không cần
     public interface VnpayResultCallback {

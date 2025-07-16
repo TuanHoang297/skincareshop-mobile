@@ -121,23 +121,5 @@ public class OrderService {
                 });
     }
 
-    public static void cancelOrder(Context context, String orderId, OrderActionCallback callback) {
-        ApiService apiService = ApiClient.getInstance(context).create(ApiService.class);
-        apiService.cancelOrder(orderId).enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    callback.onSuccess();
-                } else {
-                    callback.onError("Không thể hủy đơn hàng");
-                }
-            }
 
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Log.e("OrderService", "cancelOrder failed", t);
-                callback.onError("Lỗi kết nối: " + t.getMessage());
-            }
-        });
-    }
 }

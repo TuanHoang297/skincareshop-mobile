@@ -19,6 +19,13 @@
             android:orientation="vertical">
 
             <!-- Header -->
+            <ImageView
+                android:id="@+id/imgLogoHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/logo"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="20dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,39 +49,53 @@
                     android:textColor="@color/black" />
             </LinearLayout>
 
+            <!-- Hint nếu không có dữ liệu -->
+            <TextView
+                android:id="@+id/tvRoutinePrompt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hãy hỏi AI chatbox của chúng tôi để tìm loại da phù hợp với bạn."
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp"
+                android:layout_marginBottom="12dp"
+                android:visibility="gone" />
+
             <!-- Loại da -->
             <TextView
                 android:id="@+id/tvSkinType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Loại da: ..."
+                android:text="Vì da của bạn là: ..."
                 android:textStyle="italic|bold"
-                android:textSize="16sp"
+                android:textSize="25sp"
                 android:textColor="@android:color/black"
-                android:layout_marginBottom="12dp" />
+                android:layout_marginBottom="12dp"
+                android:visibility="gone" />
 
             <!-- Routine sáng -->
             <TextView
                 android:id="@+id/tvRoutineMorning"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Sáng:"
-                android:textStyle="bold"
-                android:textSize="16sp"
+                android:text="Nên bạn hãy thực hiện các bước sau:"
+                android:textStyle="italic|normal"
+                android:textSize="22sp"
                 android:layout_marginBottom="8dp"
-                android:textColor="@android:color/darker_gray" />
+                android:textColor="@android:color/black"
+                android:visibility="gone" />
 
             <!-- Routine tối -->
             <TextView
                 android:id="@+id/tvRoutineNight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Tối:"
-                android:textStyle="bold"
+                android:text="Nên bạn hãy thực hiện các bước sau:"
+                android:textStyle="italic|normal"
                 android:textSize="16sp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="22dp"
                 android:layout_marginBottom="8dp"
-                android:textColor="@android:color/darker_gray" />
+                android:textColor="@android:color/black"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 
@@ -94,5 +115,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:src="@drawable/ic_chat"
-        android:contentDescription="Chat tư vấn" />
+        android:contentDescription="Chat tư vấn"
+        android:backgroundTint="@color/primary"/>
 </FrameLayout>

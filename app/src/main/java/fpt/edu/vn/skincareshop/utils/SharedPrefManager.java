@@ -11,7 +11,7 @@ public class SharedPrefManager {
     private static final String KEY_USERNAME = "username";
     private static final String KEY_SKIN_TYPE = "skin_type";
     private static final String KEY_ORDER_ID = "latest_order_id";
-
+    private static final String KEY_EMAIL = "user_email";
     private static SharedPrefManager instance;
     private final SharedPreferences prefs;
     private final SharedPreferences.Editor editor;
@@ -76,6 +76,13 @@ public class SharedPrefManager {
     // ===== CHECK LOGIN STATUS =====
     public boolean isLoggedIn() {
         return getToken() != null && getUserId() != null;
+    }
+    public void saveEmail(String email) {
+        editor.putString(KEY_EMAIL, email).apply();
+    }
+
+    public String getUserEmail() {
+        return prefs.getString(KEY_EMAIL, null);
     }
 
     // ===== REMOVE SINGLE ITEM =====

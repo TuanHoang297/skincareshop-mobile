@@ -8,6 +8,13 @@
     android:gravity="center"
     tools:context=".ui.auth.LoginActivity">
 
+    <ImageView
+        android:id="@+id/imgLogoHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="30dp"/>
     <TextView
         android:id="@+id/tvLoginTitle"
         android:layout_width="wrap_content"
@@ -32,6 +39,18 @@
         android:hint="Mật khẩu"
         android:inputType="textPassword"
         android:layout_marginBottom="24dp" />
+    <TextView
+        android:id="@+id/tvGoToRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chưa có tài khoản? Đăng ký"
+        android:textColor="#ccc"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="16dp"
+        android:textStyle="bold"
+        android:layout_marginBottom="24dp"
+        />
+
 
     <Button
         android:id="@+id/btnLogin"

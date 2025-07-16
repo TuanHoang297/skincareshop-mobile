@@ -82,6 +82,9 @@ public class ProfileFragment extends Fragment {
                 case 4:
                     tab.setText("Đã huỷ");
                     break;
+                case 5:
+                    tab.setText("Đã hoàn tiền");
+                    break;
             }
         }).attach();
     }

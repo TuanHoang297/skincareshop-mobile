@@ -3,7 +3,6 @@ package fpt.edu.vn.skincareshop.ui.home;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
@@ -36,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         bottomNav = findViewById(R.id.bottom_nav);
 
-        // Listener cho tab
         bottomNav.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
             int id = item.getItemId();
@@ -62,12 +60,16 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
 
-        // ✅ Xử lý tab mở theo intent
+        // ✅ Xử lý mở tab cụ thể từ Intent
         boolean openCart = getIntent().getBooleanExtra("openCartTab", false);
-        if (openCart) {
-            bottomNav.setSelectedItemId(R.id.nav_cart); // Mở Cart
+        boolean openProfile = getIntent().getBooleanExtra("openProfileTab", false);
+
+        if (openProfile) {
+            bottomNav.setSelectedItemId(R.id.nav_profile);
+        } else if (openCart) {
+            bottomNav.setSelectedItemId(R.id.nav_cart);
         } else {
-            bottomNav.setSelectedItemId(R.id.nav_products); // Mặc định mở Product
+            bottomNav.setSelectedItemId(R.id.nav_products); // Mặc định là Products
         }
     }
 }

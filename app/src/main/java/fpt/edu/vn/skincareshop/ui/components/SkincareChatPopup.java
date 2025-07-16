@@ -89,6 +89,7 @@ public class SkincareChatPopup extends BottomSheetDialogFragment {
                         startActivity(intent);
                     });
                     recyclerView.setAdapter(productAdapter);
+                    etSkinType.setText("");
                 }
 
                 @Override

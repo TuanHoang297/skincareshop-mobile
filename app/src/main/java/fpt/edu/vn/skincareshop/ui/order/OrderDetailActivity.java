@@ -69,12 +69,7 @@ public class OrderDetailActivity extends AppCompatActivity {
 
                 recyclerItems.setAdapter(new OrderItemAdapter(OrderDetailActivity.this, items));
 
-                if ("pending".equalsIgnoreCase(order.getStatus())) {
-                    btnCancel.setVisibility(View.VISIBLE);
-                    btnCancel.setOnClickListener(v -> cancelOrder(order.getId()));
-                } else {
-                    btnCancel.setVisibility(View.GONE);
-                }
+
             }
 
             @Override
@@ -85,21 +80,5 @@ public class OrderDetailActivity extends AppCompatActivity {
         });
     }
 
-    private void cancelOrder(String id) {
-        btnCancel.setEnabled(false);
 
-        OrderService.cancelOrder(this, id, new OrderService.OrderActionCallback() {
-            @Override
-            public void onSuccess() {
-                Toast.makeText(OrderDetailActivity.this, "Đơn hàng đã được hủy", Toast.LENGTH_SHORT).show();
-                finish();
-            }
-
-            @Override
-            public void onError(String message) {
-                btnCancel.setEnabled(true);
-                Toast.makeText(OrderDetailActivity.this, "Lỗi: " + message, Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 }

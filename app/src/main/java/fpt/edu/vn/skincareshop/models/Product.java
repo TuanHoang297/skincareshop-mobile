@@ -24,7 +24,8 @@ public class Product implements Serializable {
     private String deletedAt;
     private String updatedAt;
 
-    // Getters and Setters
+    private boolean isFavorite = false;
+
 
     public String getId() { return _id; }
     public void setId(String _id) { this._id = _id; }
@@ -70,4 +71,8 @@ public class Product implements Serializable {
 
     public String getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(String updatedAt) { this.updatedAt = updatedAt; }
+
+    // ✅ Getter/Setter cho yêu thích
+    public boolean isFavorite() { return isFavorite; }
+    public void setFavorite(boolean favorite) { isFavorite = favorite; }
 }

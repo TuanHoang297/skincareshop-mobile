@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,13 +20,13 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText edtEmail, edtPassword;
     private Button btnLogin;
+    private TextView tvGoToRegister; // ✅ thêm TextView điều hướng
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Nếu đã đăng nhập → chuyển thẳng vào MainActivity
         if (SharedPrefManager.getInstance(this).isLoggedIn()) {
             startActivity(new Intent(this, MainActivity.class));
             finish();
@@ -35,8 +36,15 @@ public class LoginActivity extends AppCompatActivity {
         edtEmail = findViewById(R.id.edtEmail);
         edtPassword = findViewById(R.id.edtPassword);
         btnLogin = findViewById(R.id.btnLogin);
+        tvGoToRegister = findViewById(R.id.tvGoToRegister); // ✅ ánh xạ ID
 
         btnLogin.setOnClickListener(v -> handleLogin());
+
+        // ✅ xử lý chuyển sang RegisterActivity
+        tvGoToRegister.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void handleLogin() {
@@ -60,6 +68,10 @@ public class LoginActivity extends AppCompatActivity {
                 prefs.saveToken(token);
                 prefs.saveUserId(user.getId());
                 prefs.saveUsername(user.getName());
+
+                if (user.getEmail() != null) {
+                    prefs.saveEmail(user.getEmail());
+                }
 
                 if (user.getSkinType() != null) {
                     prefs.saveSkinType(user.getSkinType());

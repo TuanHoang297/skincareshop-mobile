@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layoutPayment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="24dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="ExtraText">
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_back"
+    android:background="?attr/selectableItemBackgroundBorderless"
+    android:contentDescription="Quay lại"
+        android:layout_marginBottom="8dp"
+        app:tint="@color/primary" />
+
+    <ImageView
+        android:id="@+id/imgLogoHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -73,14 +93,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Thanh toán khi nhận hàng (COD)"
-            android:checked="true" />
+            android:checked="true"
+            android:buttonTint="@color/primary" />
 
         <RadioButton
             android:id="@+id/rbVnpay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Thanh toán qua VNPAY" />
+            android:text="Thanh toán qua VNPAY"
+            android:buttonTint="@color/primary" />
     </RadioGroup>
+
 
     <Button
         android:id="@+id/btnSubmitPayment"

@@ -1,9 +1,11 @@
 package fpt.edu.vn.skincareshop.ui.auth;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +18,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private EditText edtName, edtEmail, edtPassword;
     private Button btnRegister;
+    private TextView tvGoToLogin; // ✅ TextView điều hướng về login
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -27,8 +30,15 @@ public class RegisterActivity extends AppCompatActivity {
         edtEmail = findViewById(R.id.edtEmail);
         edtPassword = findViewById(R.id.edtPassword);
         btnRegister = findViewById(R.id.btnRegister);
+        tvGoToLogin = findViewById(R.id.tvGoToLogin); // ✅ ánh xạ ID
 
         btnRegister.setOnClickListener(v -> handleRegister());
+
+        // ✅ xử lý khi bấm “Đã có tài khoản? Đăng nhập”
+        tvGoToLogin.setOnClickListener(v -> {
+            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+            finish(); // hoặc bỏ nếu muốn quay lại
+        });
     }
 
     private void handleRegister() {
@@ -50,7 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onSuccess() {
                 Toast.makeText(RegisterActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
-                finish();
+                finish(); // quay về LoginActivity hoặc MainActivity nếu muốn
             }
 
             @Override

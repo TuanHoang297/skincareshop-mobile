@@ -24,7 +24,7 @@ import fpt.edu.vn.skincareshop.utils.SharedPrefManager;
 
 public class RoutineFragment extends Fragment {
 
-    private TextView tvSkinType, tvMorningSteps, tvNightSteps;
+    private TextView tvSkinType, tvMorningSteps, tvNightSteps, tvPrompt;
     private ProgressBar progressBar;
     private FloatingActionButton fabSkincareChat;
 
@@ -37,6 +37,7 @@ public class RoutineFragment extends Fragment {
         tvSkinType = view.findViewById(R.id.tvSkinType);
         tvMorningSteps = view.findViewById(R.id.tvRoutineMorning);
         tvNightSteps = view.findViewById(R.id.tvRoutineNight);
+        tvPrompt = view.findViewById(R.id.tvRoutinePrompt); // TextView chứa dòng gợi ý AI chatbox
         progressBar = view.findViewById(R.id.progressRoutine);
         fabSkincareChat = view.findViewById(R.id.fabSkincareChat);
 
@@ -47,9 +48,17 @@ public class RoutineFragment extends Fragment {
 
         String skinType = SharedPrefManager.getInstance(getContext()).getSkinType();
         if (skinType == null || skinType.isEmpty()) {
-            Toast.makeText(getContext(), "Chưa xác định loại da", Toast.LENGTH_SHORT).show();
+            tvPrompt.setVisibility(View.VISIBLE);
+            tvSkinType.setVisibility(View.GONE);
+            tvMorningSteps.setVisibility(View.GONE);
+            tvNightSteps.setVisibility(View.GONE);
         } else {
-            tvSkinType.setText("Loại da: " + skinType);
+            tvPrompt.setVisibility(View.GONE);
+            tvSkinType.setVisibility(View.VISIBLE);
+
+            String translated = translateSkinType(skinType);
+            tvSkinType.setText("Vì da của bạn là: " + translated);
+
             loadRoutine(skinType);
         }
 
@@ -67,24 +76,33 @@ public class RoutineFragment extends Fragment {
                 StringBuilder morningBuilder = new StringBuilder();
                 StringBuilder eveningBuilder = new StringBuilder();
 
-                if (routine.getSteps() != null && routine.getTimeOfDay() != null) {
-                    List<Routine.Step> steps = routine.getSteps();
-                    String timeOfDay = routine.getTimeOfDay().toLowerCase();
+                String time = routine.getTimeOfDay() != null ? routine.getTimeOfDay().toLowerCase() : "";
 
-                    for (Routine.Step step : steps) {
+                if (routine.getSteps() != null && !routine.getSteps().isEmpty()) {
+                    for (Routine.Step step : routine.getSteps()) {
                         String formatted = "- " + step.getStepName() + ": " + step.getDescription() + "\n";
-
-                        if (timeOfDay.equals("morning") || timeOfDay.equals("both")) {
+                        if (time.equals("morning") || time.equals("both")) {
                             morningBuilder.append(formatted);
                         }
-                        if (timeOfDay.equals("evening") || timeOfDay.equals("both")) {
+                        if (time.equals("evening") || time.equals("both")) {
                             eveningBuilder.append(formatted);
                         }
                     }
                 }
 
-                tvMorningSteps.setText("Sáng:\n" + morningBuilder.toString());
-                tvNightSteps.setText("Tối:\n" + eveningBuilder.toString());
+                if (morningBuilder.length() > 0) {
+                    tvMorningSteps.setVisibility(View.VISIBLE);
+                    tvMorningSteps.setText("Sáng:\n" + morningBuilder.toString());
+                } else {
+                    tvMorningSteps.setVisibility(View.GONE);
+                }
+
+                if (eveningBuilder.length() > 0) {
+                    tvNightSteps.setVisibility(View.VISIBLE);
+                    tvNightSteps.setText("Tối:\n" + eveningBuilder.toString());
+                } else {
+                    tvNightSteps.setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -93,5 +111,20 @@ public class RoutineFragment extends Fragment {
                 Toast.makeText(getContext(), "Lỗi: " + message, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private String translateSkinType(String skinType) {
+        switch (skinType.toLowerCase()) {
+            case "oily":
+                return "da dầu";
+            case "dry":
+                return "da khô";
+            case "normal":
+                return "da thường";
+            case "combination":
+                return "da hỗn hợp";
+            default:
+                return skinType;
+        }
     }
 }

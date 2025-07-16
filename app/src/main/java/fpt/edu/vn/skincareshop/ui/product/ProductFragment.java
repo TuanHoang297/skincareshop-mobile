@@ -31,7 +31,6 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import fpt.edu.vn.skincareshop.R;
-import fpt.edu.vn.skincareshop.adapters.ProductAdapter;
 import fpt.edu.vn.skincareshop.adapters.ProductGroupAdapter;
 import fpt.edu.vn.skincareshop.models.Product;
 import fpt.edu.vn.skincareshop.services.ProductService;
@@ -49,6 +48,7 @@ public class ProductFragment extends Fragment {
     private List<Product> allProducts = new ArrayList<>();
     private List<String> groupOrder = new ArrayList<>();
     private ConcatAdapter concatAdapter;
+    private String currentKeyword = "";
 
     public ProductFragment() {}
 
@@ -73,7 +73,8 @@ public class ProductFragment extends Fragment {
 
         edtSearch.addTextChangedListener(new TextWatcher() {
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
-                filterAndRenderProducts(s.toString());
+                currentKeyword = s.toString();
+                filterAndRenderProducts(currentKeyword);
             }
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override public void afterTextChanged(Editable s) {}
@@ -81,6 +82,13 @@ public class ProductFragment extends Fragment {
 
         loadProducts();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Cập nhật lại giao diện khi quay về từ ProductDetailActivity
+        filterAndRenderProducts(currentKeyword);
     }
 
     private void loadProducts() {
@@ -91,7 +99,7 @@ public class ProductFragment extends Fragment {
             public void onSuccess(List<Product> productList) {
                 progressBar.setVisibility(View.GONE);
                 allProducts = productList;
-                filterAndRenderProducts("");
+                filterAndRenderProducts(currentKeyword);
                 renderFilterButtons();
             }
 

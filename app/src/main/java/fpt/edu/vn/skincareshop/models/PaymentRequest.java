@@ -3,22 +3,41 @@ package fpt.edu.vn.skincareshop.models;
 import java.util.List;
 
 public class PaymentRequest {
-    private String orderId;                 // dùng khi đã tạo đơn trước
-    private String userId;                  // nếu tạo mới đơn ngay khi thanh toán
+    private String orderId;
+    private String userId;
+    private String fullName;
     private double amount;
-    private String paymentMethod;           // "COD" hoặc "VNPAY"
-    private List<SimplifiedCartItem> items; // danh sách sản phẩm rút gọn gửi lên server
+    private String paymentMethod;
+    private List<SimplifiedCartItem> items;
+
+    private String phoneNumber; // ✅ thêm mới
+    private String address;     // ✅ thêm mới
+    private String email;       // ✅ thêm mới
 
     public PaymentRequest() {}
 
-    public PaymentRequest(String orderId, String userId, double amount, String paymentMethod, List<SimplifiedCartItem> items) {
+    public PaymentRequest(String orderId, String userId, double amount, String paymentMethod,
+                          List<SimplifiedCartItem> items, String phoneNumber, String address, String email, String fullName ) {
         this.orderId = orderId;
         this.userId = userId;
+        this.fullName = fullName;
         this.amount = amount;
         this.paymentMethod = paymentMethod;
         this.items = items;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.email = email;
     }
 
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    // Getters & Setters
     public String getOrderId() {
         return orderId;
     }
@@ -57,5 +76,29 @@ public class PaymentRequest {
 
     public void setItems(List<SimplifiedCartItem> items) {
         this.items = items;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

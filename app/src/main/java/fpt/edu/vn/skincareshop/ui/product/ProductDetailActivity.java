@@ -18,10 +18,11 @@ import fpt.edu.vn.skincareshop.models.CartItem;
 import fpt.edu.vn.skincareshop.models.Product;
 import fpt.edu.vn.skincareshop.ui.home.MainActivity;
 import fpt.edu.vn.skincareshop.utils.CartManager;
+import fpt.edu.vn.skincareshop.utils.FavoriteManager;
 
 public class ProductDetailActivity extends AppCompatActivity {
 
-    private ImageView imgProduct, btnBack, btnCart;
+    private ImageView imgProduct, btnBack, btnCart, btnFavorite;
     private TextView tvName, tvDescription, tvPrice;
     private TextView tvGender, tvVolume, tvRating, tvSkinTypes, tvManufactureDate, tvExpiryDate;
     private Button btnAddToCart, btnGoToCart;
@@ -37,6 +38,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         imgProduct = findViewById(R.id.imgDetailProduct);
         btnBack = findViewById(R.id.btnBack);
         btnCart = findViewById(R.id.btnCart);
+        btnFavorite = findViewById(R.id.btnFavorite);
 
         tvName = findViewById(R.id.tvDetailProductName);
         tvDescription = findViewById(R.id.tvDetailProductDescription);
@@ -84,6 +86,17 @@ public class ProductDetailActivity extends AppCompatActivity {
                 .placeholder(R.drawable.ic_placeholder)
                 .into(imgProduct);
 
+        // Hiển thị trạng thái nút favorite
+        updateFavoriteIcon();
+
+        btnFavorite.setOnClickListener(v -> {
+            FavoriteManager.toggleFavorite(this, product.getId());
+            updateFavoriteIcon();
+            Toast.makeText(this,
+                    FavoriteManager.isFavorite(this, product.getId()) ? "Đã thêm vào yêu thích" : "Đã xoá khỏi yêu thích",
+                    Toast.LENGTH_SHORT).show();
+        });
+
         // Ẩn nút "Đến giỏ hàng" nếu giỏ hàng đang rỗng
         if (CartManager.getCart(this).isEmpty()) {
             btnGoToCart.setVisibility(Button.GONE);
@@ -107,11 +120,10 @@ public class ProductDetailActivity extends AppCompatActivity {
                 }
             }
 
-            CartManager.addToCart(this, product);  // Tăng quantity lên 1
+            CartManager.addToCart(this, product);
             Toast.makeText(this, alreadyInCart ? "Đã tăng số lượng sản phẩm" : "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
             btnGoToCart.setVisibility(Button.VISIBLE);
         });
-
 
         // Đến giỏ hàng
         btnGoToCart.setOnClickListener(v -> {
@@ -133,5 +145,13 @@ public class ProductDetailActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+    }
+
+    private void updateFavoriteIcon() {
+        if (FavoriteManager.isFavorite(this, product.getId())) {
+            btnFavorite.setImageResource(R.drawable.ic_heart_filled);
+        } else {
+            btnFavorite.setImageResource(R.drawable.ic_heart_outline);
+        }
     }
 }

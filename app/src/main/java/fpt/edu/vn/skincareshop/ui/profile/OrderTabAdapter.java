@@ -31,12 +31,15 @@ public class OrderTabAdapter extends FragmentStateAdapter {
             case 4:
                 status = "cancelled";
                 break;
+            case 5:
+                status = "refunded";
+                break;
         }
         return OrderTabFragment.newInstance(status);
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return 6;
     }
 }

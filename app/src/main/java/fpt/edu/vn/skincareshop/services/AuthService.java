@@ -9,7 +9,8 @@ import fpt.edu.vn.skincareshop.network.ApiService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
+import okhttp3.ResponseBody;
+import org.json.JSONObject;
 public class AuthService {
 
     public interface LoginCallback {
@@ -44,18 +45,25 @@ public class AuthService {
 
     public static void register(Context context, User user, RegisterCallback callback) {
         ApiService apiService = ApiClient.getInstance(context).create(ApiService.class);
-        apiService.register(user).enqueue(new Callback<Void>() {
+        apiService.register(user).enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     callback.onSuccess();
                 } else {
-                    callback.onError("Đăng ký thất bại");
+                    try {
+                        String errorBody = response.errorBody().string();
+                        JSONObject json = new JSONObject(errorBody);
+                        String message = json.optString("message", "Đăng ký thất bại");
+                        callback.onError(message);
+                    } catch (Exception e) {
+                        callback.onError("Đăng ký thất bại");
+                    }
                 }
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.e("AuthService", "register failed", t);
                 callback.onError("Lỗi kết nối: " + t.getMessage());
             }
